@@ -28,16 +28,8 @@
         id<UIApplicationDelegate> delegate = [UIApplication sharedApplication].delegate;
 
         Class delegateClass;
-
-        // UrbanAirship uses a proxy for the app delegate
-        if ([NSStringFromClass(delegate.class) isEqualToString:@"UAAppDelegateProxy"])
-        {
-            delegateClass = [objc_msgSend(delegate, sel_getUid("originalAppDelegate")) class];
-        }
-        else
-        {
-            delegateClass = delegate.class;
-        }
+        delegateClass = delegate.class;
+        
 
         // Adds a bit of code to the app delegate to handle a status bar tap
         [delegateClass jr_swizzleMethod:@selector(touchesBegan:withEvent:) withMethod:@selector(informative_touchesBegan:withEvent:) error:nil];
