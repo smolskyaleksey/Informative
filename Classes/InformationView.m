@@ -5,7 +5,6 @@
 
 #import "InformationView.h"
 #import "Informative.h"
-#import <Masonry/Masonry.h>
 
 @implementation InformationView
 
@@ -21,12 +20,13 @@
         self.textLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.textLabel];
 
-        [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.mas_top).with.offset(20);
-            make.left.equalTo(self.mas_left);
-            make.right.equalTo(self.mas_right);
-            make.bottom.equalTo(self.mas_bottom);
-        }];
+        UILabel *textLabel = self.textLabel;
+        [self.textLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        // align textLabel from the left and right
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[textLabel]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(textLabel)]];
+        // align textLabel from the top and bottom
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[textLabel]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(textLabel)]];
+
 
         self.alpha = 0.0f;
 
@@ -47,7 +47,7 @@
 
 - (void)setDefaults
 {
-    self.backgroundColor = [UIColor colorWithRed:223.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:83.0f/255.0f green:215.0f/255.0f blue:105.0f/255.0f alpha:1.0];
     self.text = @"Information View";
     self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11];
     self.textColor = [UIColor whiteColor];
