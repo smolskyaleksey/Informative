@@ -23,7 +23,7 @@
 
     return CGSizeMake(
             normalSize.width,
-            [Informative singleton].showInformation ? [Informative singleton].newStatusBarHeight : normalSize.height
+           [Informative singleton].showInformation ? normalSize.height + [Informative singleton].newStatusBarHeight : normalSize.height
     );
 }
 
