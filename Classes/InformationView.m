@@ -49,8 +49,27 @@
 {
     self.backgroundColor = [UIColor colorWithRed:83.0f/255.0f green:215.0f/255.0f blue:105.0f/255.0f alpha:1.0];
     self.text = @"Information View";
-    self.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11];
+    self.font = [UIFont systemFontOfSize:14];
     self.textColor = [UIColor whiteColor];
+}
+
+- (void)startAnimation
+{
+    CAKeyframeAnimation *blinkAnim = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    blinkAnim.duration = 1.8;
+    blinkAnim.autoreverses = false;
+    blinkAnim.fillMode = kCAFillModeForwards;
+    blinkAnim.repeatCount = HUGE_VALF;
+    blinkAnim.keyTimes = @[ @0.0f, @0.1f, @0.5f, @0.9f, @1.0f ];
+    blinkAnim.values = @[ @1.0f, @1.0f, @0.0f, @1.0f, @1.0f ];
+    blinkAnim.removedOnCompletion = NO;
+    
+    [_textLabel.layer addAnimation:blinkAnim forKey:@"opacity"];
+}
+
+- (void)stopAnimation
+{
+    [_textLabel.layer removeAllAnimations];
 }
 
 - (void)showView:(BOOL)animated
@@ -58,6 +77,7 @@
     void (^animateTo)() = ^{
         self.frame = CGRectMake(0, -20, self.bounds.size.width, 40);
         self.alpha = 1.0f;
+        [self startAnimation];
     };
 
     if (animated)
@@ -82,6 +102,7 @@
     void (^animateTo)() = ^{
         self.frame = CGRectMake(0, -40, self.bounds.size.width, 20);
         self.alpha = 0.0f;
+        [self stopAnimation];
     };
 
     if (animated)
